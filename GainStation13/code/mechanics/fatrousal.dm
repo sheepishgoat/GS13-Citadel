@@ -16,14 +16,14 @@
 		var/mob/living/carbon/C = quirk_holder
 		C.hider_remove(src)
 
-/*
+
 /datum/quirk/fatrousal/proc/fat_hide(var/mob/living/carbon/user)
 	if(iscarbon(quirk_holder))
 		var/mob/living/carbon/C = quirk_holder
-		return C.getArousalLoss()*35
+		return C.getArousal()*35
 
 	return FALSE
-*/
+
 
 ///mob/living/adjust_arousal(amount, updating_arousal=1)
 //	if(HAS_TRAIT(src, TRAIT_FATROUSAL))

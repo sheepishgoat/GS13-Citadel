@@ -57,3 +57,20 @@
 /datum/quirk/slimespeaker/remove()
 	var/mob/living/M = quirk_holder
 	M?.remove_language(/datum/language/slime)
+
+/datum/quirk/SpawnWithWheelchair
+	name = "Mobility Assistance"
+	desc = "After your last failed fitness test, you were advised to start using a hoverchair"
+
+/datum/quirk/SpawnWithWheelchair/on_spawn()
+	if(quirk_holder.buckled) // Handle late joins being buckled to arrival shuttle chairs.
+		quirk_holder.buckled.unbuckle_mob(quirk_holder)
+
+	var/turf/T = get_turf(quirk_holder)
+	var/obj/structure/chair/spawn_chair = locate() in T
+
+	var/obj/vehicle/ridden/wheelchair/wheels = new(T)
+	if(spawn_chair) // Makes spawning on the arrivals shuttle more consistent looking
+		wheels.setDir(spawn_chair.dir)
+
+	wheels.buckle_mob(quirk_holder)

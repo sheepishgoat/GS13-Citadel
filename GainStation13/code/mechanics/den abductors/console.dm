@@ -26,7 +26,7 @@
 
 	var/credits = linked_scale?.credits
 	dat += "Gear Credits: [credits] <br>"
-	dat += "<b>Transfer credits in exchange for supplies:</b><br>"	
+	dat += "<b>Transfer credits in exchange for supplies:</b><br>"
 	for(var/goodie in subtypesof(/datum/feeders_den_goodie))
 		var/datum/feeders_den_goodie/temp_goodie = new goodie()
 		dat += "<a href='?src=[REF(src)];dispense=[goodie]'>[temp_goodie.name] (Cost: [temp_goodie.credit_cost])</A><br>"
@@ -64,7 +64,7 @@
 			say("Unable to purchase more!")
 			return FALSE
 
-		if(!Dispense(item_path, price))	
+		if(!Dispense(item_path, price))
 			return FALSE
 
 		if(buy_counts[goodie_datum.name] == null)
@@ -146,7 +146,7 @@
 		return TRUE
 
 	return ..()
-	
+
 /obj/structure/scale/credits
 	name = "tracking scale"
 	desc = "A upgraded scale that tracks to weight of all of those that have stepped on it. Using this will add credits to the feeder console"
@@ -155,7 +155,7 @@
 	/// How much credits do we currently have?
 	var/credits = 0
 	/// How many credits are we going to reward per pound gained?
-	var/credits_per_fatness = 0.25 
+	var/credits_per_fatness = 0.25
 	/// A list containing all of the people we've scanned and their maximum weight.
 	var/list/scanned_people = list()
 	/// What is the current team number?
@@ -201,7 +201,7 @@
 	var/credit_total = max((credits_to_add - credits_to_remove), 0)
 	if(credit_total > 0)
 		say("[credit_total] credits have been deposited into the console.")
-	
+
 	credits += credit_total
 	scanned_people[fatty] += credit_total
 
@@ -214,6 +214,7 @@
 	team_number = 27
 	vest_mode_action = null
 	vest_disguise_action = null
+	check_if_abductor = FALSE
 
 /obj/machinery/computer/camera_advanced/abductor/feeder/IsScientist(mob/living/carbon/human/H)
 	return TRUE
@@ -245,4 +246,4 @@
 
 	prepare(target,user)
 	return TRUE
-	
+

@@ -11,6 +11,8 @@
 	var/obj/machinery/abductor/console/console
 	lock_override = TRUE
 
+	var/check_if_abductor = TRUE //GS13 EDIT
+
 	icon = 'icons/obj/abductor.dmi'
 	icon_state = "camera"
 	icon_keyboard = null
@@ -24,7 +26,7 @@
 
 /obj/machinery/computer/camera_advanced/abductor/Initialize(mapload)
 	. = ..()
-	
+
 	if(tele_in_action)
 		actions += new tele_in_action(src)
 	if(tele_out_action)

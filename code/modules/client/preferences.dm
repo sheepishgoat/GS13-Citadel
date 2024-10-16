@@ -8,6 +8,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/client/parent
 	//doohickeys for savefiles
 	var/path
+	var/clientckey //GS13 EDIT
 	var/vr_path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
 	var/max_save_slots = 24
@@ -132,7 +133,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/eye_type = DEFAULT_EYES_TYPE	//Eye type
 	var/split_eye_colors = FALSE
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
-	var/list/features = list("mcolor" = "FFFFFF", "mcolor2" = "FFFFFF", "mcolor3" = "FFFFFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "horns_color" = "85615a", "ears" = "None", "wings" = "None", "wings_color" = "FFF", "frills" = "None", "deco_wings" = "None", "spines" = "None", "legs" = "Plantigrade", "insect_wings" = "Plain", "insect_fluff" = "None", "insect_markings" = "None", "arachnid_legs" = "Plain", "arachnid_spinneret" = "Plain", "arachnid_mandibles" = "Plain", "mam_body_markings" = list(), "mam_ears" = "None", "mam_snouts" = "None", "mam_tail" = "None", "mam_tail_animated" = "None", "xenodorsal" = "Standard", "xenohead" = "Standard", "xenotail" = "Xenomorph Tail", "taur" = "None", "genitals_use_skintone" = FALSE, "has_cock" = FALSE, "cock_shape" = DEF_COCK_SHAPE, "cock_length" = COCK_SIZE_DEF, "cock_diameter_ratio" = COCK_DIAMETER_RATIO_DEF, "cock_color" = "ffffff", "cock_taur" = FALSE, "has_balls" = FALSE, "balls_color" = "ffffff", "balls_shape" = DEF_BALLS_SHAPE, "balls_size" = BALLS_SIZE_DEF, "balls_cum_rate" = CUM_RATE, "balls_cum_mult" = CUM_RATE_MULT, "balls_efficiency" = CUM_EFFICIENCY, "has_breasts" = FALSE, "breasts_color" = "ffffff", "breasts_size" = BREASTS_SIZE_DEF, "breasts_shape" = DEF_BREASTS_SHAPE, "breasts_fluid" = /datum/reagent/consumable/milk,  "breasts_producing" = FALSE, "has_vag" = FALSE, "vag_shape" = DEF_VAGINA_SHAPE, "vag_color" = "ffffff", "has_womb" = FALSE,  "has_butt" = FALSE, "butt_color" = "ffffff", "butt_size" = BUTT_SIZE_DEF, "balls_visibility"	= GEN_VISIBLE_NO_UNDIES, "breasts_visibility"= GEN_VISIBLE_NO_UNDIES, "cock_visibility"	= GEN_VISIBLE_NO_UNDIES, "vag_visibility"	= GEN_VISIBLE_NO_UNDIES, "butt_visibility" = GEN_VISIBLE_NO_UNDIES, "ipc_screen" = "Sunburst", "ipc_antenna" = "None", "flavor_text" = "", "silicon_flavor_text" = "", "ooc_notes" = "", "meat_type" = "Mammalian", "body_model" = MALE, "body_size" = RESIZE_DEFAULT_SIZE, "color_scheme" = OLD_CHARACTER_COLORING)
+	var/list/features = list("mcolor" = "FFFFFF", "mcolor2" = "FFFFFF", "mcolor3" = "FFFFFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "horns_color" = "85615a", "ears" = "None", "wings" = "None", "wings_color" = "FFF", "frills" = "None", "deco_wings" = "None", "spines" = "None", "legs" = "Plantigrade", "insect_wings" = "Plain", "insect_fluff" = "None", "insect_markings" = "None", "arachnid_legs" = "Plain", "arachnid_spinneret" = "Plain", "arachnid_mandibles" = "Plain", "mam_body_markings" = list(), "mam_ears" = "None", "mam_snouts" = "None", "mam_tail" = "None", "mam_tail_animated" = "None", "xenodorsal" = "Standard", "xenohead" = "Standard", "xenotail" = "Xenomorph Tail", "taur" = "None", "genitals_use_skintone" = FALSE, "has_cock" = FALSE, "cock_shape" = DEF_COCK_SHAPE, "cock_length" = COCK_SIZE_DEF, "cock_diameter_ratio" = COCK_DIAMETER_RATIO_DEF, "cock_color" = "ffffff", "cock_taur" = FALSE, "has_balls" = FALSE, "balls_color" = "ffffff", "balls_shape" = DEF_BALLS_SHAPE, "balls_size" = BALLS_SIZE_DEF, "balls_cum_rate" = CUM_RATE, "balls_cum_mult" = CUM_RATE_MULT, "balls_efficiency" = CUM_EFFICIENCY, "has_breasts" = FALSE, "breasts_color" = "ffffff", "breasts_size" = BREASTS_SIZE_DEF, "breasts_shape" = DEF_BREASTS_SHAPE, "breasts_fluid" = /datum/reagent/consumable/milk,  "breasts_producing" = FALSE, "has_vag" = FALSE, "vag_shape" = DEF_VAGINA_SHAPE, "vag_color" = "ffffff", "has_womb" = FALSE,  "has_butt" = FALSE, "butt_color" = "ffffff", "butt_size" = BUTT_SIZE_DEF, "balls_visibility"	= GEN_VISIBLE_NO_UNDIES, "breasts_visibility"= GEN_VISIBLE_NO_UNDIES, "cock_visibility"	= GEN_VISIBLE_NO_UNDIES, "vag_visibility"	= GEN_VISIBLE_NO_UNDIES, "butt_visibility" = GEN_VISIBLE_NO_UNDIES, "ipc_screen" = "Sunburst", "ipc_antenna" = "None", "flavor_text" = "", "silicon_flavor_text" = "", "ooc_notes" = "", "meat_type" = "Mammalian", "body_model" = MALE, "body_size" = RESIZE_DEFAULT_SIZE, "color_scheme" = OLD_CHARACTER_COLORING, "belly_size" = BELLY_SIZE_DEF, "inflatable_belly" = FALSE, "belly_visibility" = GEN_VISIBLE_NO_UNDIES)
 
 	var/custom_speech_verb = "default" //if your say_mod is to be something other than your races
 	var/custom_tongue = "default" //if your tongue is to be something other than your races
@@ -280,6 +281,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(istype(C))
 		if(!IsGuestKey(C.key))
 			load_path(C.ckey)
+			clientckey = C.ckey //GS13 EDIT
 			unlock_content = C.IsByondMember()
 			if(unlock_content)
 				max_save_slots = 32
@@ -845,7 +847,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<b>Belly Size:</b> <a style='display:block;width:120px' href='?_src_=prefs;preference=belly_size;task=input'>[features["belly_size"]]</a>"
 						dat += "<b>Belly Visibility:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=belly_visibility;task=input'>[features["belly_visibility"]]</a>"
 						// GS13: tweak inflation description
-						//dat += "<b>Inflation (climax with and manual belly size change in arousal menu):</b><a style='display:block;width:50px' href='?_src_=prefs;preference=inflatable_belly'>[features["inflatable_belly"] == 1 ? "Yes" : "No"]</a>"
+						dat += "<b>Inflation (climax with and manual belly size change in arousal menu):</b><a style='display:block;width:50px' href='?_src_=prefs;preference=inflatable_belly'>[features["inflatable_belly"] == 1 ? "Yes" : "No"]</a>"
+
 
 					dat += "</td>"
 					dat += "</tr></table>"
@@ -3050,6 +3053,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					features["has_butt"] = !features["has_butt"]
 				if("has_belly")
 					features["has_belly"] = !features["has_belly"]
+				if("inflatable_belly")
+					features["inflatable_belly"] = !features["inflatable_belly"]
 				if("widescreenpref")
 					widescreenpref = !widescreenpref
 					user.client.view_size.setDefault(getScreenSize(widescreenpref))
@@ -3729,6 +3734,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		character.fatness_perma = permanent_fat
 	character.weight_gain_rate = wg_rate
 	character.weight_loss_rate = wl_rate
+	character.savekey = clientckey
+	character.ckeyslot = ckeyslot
 	// GS13 EDIT - END
 
 

@@ -11,7 +11,7 @@
 	item_state = "fleshlight"
 	w_class = WEIGHT_CLASS_SMALL
 	var/sleevecolor = "#ffcbd4" //pink
-	price = 8
+	custom_price = PRICE_CHEAP
 	var/mutable_appearance/sleeve
 	var/inuse = 0
 
@@ -62,8 +62,8 @@
 			C.emote("moan")
 
 		C.do_jitter_animation()
-		C.adjust_arousal(20) //make the target more aroused.
-		if (C.getArousalLoss() >= 100 && ishuman(C) && C.has_dna())
+		C.adjustArousal(20) //make the target more aroused.
+		if (C.getArousal() >= 100 && ishuman(C) && C.has_dna())
 			C.mob_climax(forced_climax=TRUE) //make them cum if they are over the edge.
 
 		return
@@ -88,7 +88,7 @@
 	var/partnercolor = "#ffcbd4"
 	var/partnerbase = "normal"
 	var/partnerorgan = "portal_vag"
-	price = 20
+	custom_price = PRICE_EXPENSIVE
 	var/mutable_appearance/sleeve
 	var/mutable_appearance/organ
 	var/inuse = 0
@@ -161,26 +161,24 @@
 				C.emote("moan")
 			if(prob(30)) //30% chance to make your partner moan.
 				M.emote("moan")
-			C.adjust_arousal(20)
-			M.adjust_arousal(20)
+			C.adjustArousal(20)
+			M.adjustArousal(20)
 			M.do_jitter_animation() //make your partner shake too!
 
-			if (M.getArousalLoss() >= 100 && ishuman(M) && prob(5))//Why not have a probability to cum when someone's getting nailed with max arousal?~
+			if (M.getArousal() >= 100 && ishuman(M) && prob(5))//Why not have a probability to cum when someone's getting nailed with max arousal?~
 				if(G.is_exposed())	//Oh yea, if vagina is not exposed, the climax will not cause a spill
 					M.mob_climax_outside(G, spillage = TRUE)
 				else
 					M.mob_climax_outside(G, spillage = FALSE)
 
-			if (C.getArousalLoss() >= 100 && ishuman(C) && C.has_dna())
+			if (C.getArousal() >= 100 && ishuman(C) && C.has_dna())
 				var/mob/living/carbon/human/O = C
 
-				if( (P.condom == 1) || (P.sounding == 1))  //If coundomed and/or sounded, do not fire impreg chance
+				//Else, fire impreg chance
+				if(G.name == "vagina") //no more spontaneous impregnations through the butt!
+					O.mob_climax_partner(P, M, FALSE, TRUE, FALSE, TRUE)
+				else
 					O.mob_climax_partner(P, M, FALSE, FALSE, FALSE, TRUE)
-				else                                       //Else, fire impreg chance
-					if(G.name == "vagina") //no more spontaneous impregnations through the butt!
-						O.mob_climax_partner(P, M, FALSE, TRUE, FALSE, TRUE)
-					else
-						O.mob_climax_partner(P, M, FALSE, FALSE, FALSE, TRUE)
 
 		if(option == "Lick")
 			to_chat(M, "<span class='love'>You feel a tongue lick you through the portal against your [G.name].</span>")
@@ -190,7 +188,6 @@
 			M.adjust_arousal(5)
 
 		return
-	..()
 
 /obj/item/portallight/proc/updatesleeve()
 	//get their looks and vagina colour!
@@ -317,7 +314,7 @@
 	icon = 'hyperstation/icons/obj/fleshlight.dmi'
 	desc = "A small silver box with Silver Love Co embossed."
 	icon_state = "box"
-	price = 15
+	custom_price = PRICE_NORMAL
 
 // portal fleshlight box
 /obj/item/storage/box/portallight/PopulateContents()
@@ -372,7 +369,7 @@
 
 // 		C.do_jitter_animation()
 // 		C.adjust_arousal(20) //make the target more aroused.
-// 		if (C.getArousalLoss() >= 100 && ishuman(C) && C.has_dna())
+// 		if (C.getArousal() >= 100 && ishuman(C) && C.has_dna())
 // 			C.mob_climax(forced_climax=TRUE) //make them cum if they are over the edge.
 
 // 		return

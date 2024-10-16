@@ -9,6 +9,7 @@
 	shape = DEF_VAGINA_SHAPE
 	genital_flags = CAN_MASTURBATE_WITH|CAN_CLIMAX_WITH|GENITAL_CAN_AROUSE|GENITAL_UNDIES_HIDDEN
 	masturbation_verb = "finger"
+	can_climax				= TRUE
 	arousal_verb = "You feel wetness on your crotch"
 	unarousal_verb = "You no longer feel wet"
 	fluid_transfer_factor = 0.1 //Yes, some amount is exposed to you, go get your AIDS

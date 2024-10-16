@@ -12,6 +12,7 @@
 	flavour_text = "After you've sold your soul to corporate overlords, your contract obliged you to enter cryostasis. \
 	Finally, after God knows how long, the cryopod system have awakened you with only a single sentence of information - welcome and lure in new guests into the freshly opened GATO restaurant!"
 	assignedrole = "Restaurant worker"
+	mirrorcanloadappearance = TRUE
 
 /obj/effect/mob_spawn/human/fastfoodmanager
 	name = "Corporate cryostasis pod"
@@ -27,6 +28,7 @@
 	flavour_text = "After you've sold your soul to corporate overlords, your contract obliged you to enter cryostasis. \
 	Finally, after God knows how long, the cryopod system have awakened you with only a single sentence of information - make sure to keep the best care of GATO's restaurant, currently under your management! You have a higher say over your workers, but do not abuse this power."
 	assignedrole = "Restaurant manager"
+	mirrorcanloadappearance = TRUE
 
 /obj/effect/mob_spawn/human/fastfood/Initialize(mapload)
 	. = ..()
@@ -108,6 +110,7 @@
 	death = FALSE
 	roundstart = FALSE
 	mob_species = /datum/species/human
+	mirrorcanloadappearance = TRUE
 
 /datum/outfit/feeders_den/fanatic
 	name = "Feeder Fanatic"
@@ -152,6 +155,7 @@
 	death = FALSE
 	roundstart = FALSE
 	mob_species = /datum/species/human
+	mirrorcanloadappearance = TRUE
 
 /datum/outfit/feeders_den/victim
 	name = "Den Victim"

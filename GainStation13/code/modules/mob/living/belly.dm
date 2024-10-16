@@ -45,6 +45,7 @@
 	else
 		color = "#[D.features["belly_color"]]"
 	size = D.features["belly_size"]
+	inflatable = D.features["inflatable_belly"]
 	toggle_visibility(D.features["belly_visibility"], FALSE)
 
 

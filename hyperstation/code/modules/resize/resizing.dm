@@ -214,12 +214,12 @@
 					/*
 					if(HAS_TRAIT(src, TRAIT_MICROPHILE))
 						src.adjust_arousal(8)
-						if (src.getArousalLoss() >= 100 && ishuman(tmob) && tmob.has_dna())
+						if (src.getArousal() >= 100 && ishuman(tmob) && tmob.has_dna())
 							src.mob_climax(forced_climax=TRUE)
 
 					if(HAS_TRAIT(tmob, TRAIT_MACROPHILE))
 						tmob.adjust_arousal(10)
-						if (tmob.getArousalLoss() >= 100 && ishuman(tmob) && tmob.has_dna())
+						if (tmob.getArousal() >= 100 && ishuman(tmob) && tmob.has_dna())
 							tmob.mob_climax(forced_climax=TRUE)
 
 						return TRUE
@@ -244,12 +244,12 @@
 					/*
 					if(HAS_TRAIT(src, TRAIT_MICROPHILE))
 						src.adjust_arousal((get_effective_size()/tmob.get_effective_size()*3))
-						if (src.getArousalLoss() >= 100 && ishuman(tmob) && tmob.has_dna())
+						if (src.getArousal() >= 100 && ishuman(tmob) && tmob.has_dna())
 							src.mob_climax(forced_climax=TRUE)
 
 					if(HAS_TRAIT(tmob, TRAIT_MACROPHILE))
 						tmob.adjust_arousal((get_effective_size()/tmob.get_effective_size()*3))
-						if (tmob.getArousalLoss() >= 100 && ishuman(tmob) && tmob.has_dna())
+						if (tmob.getArousal() >= 100 && ishuman(tmob) && tmob.has_dna())
 							tmob.mob_climax(forced_climax=TRUE)
 
 					commenting out for now */

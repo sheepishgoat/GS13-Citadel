@@ -30,6 +30,11 @@
 		create_objectives()
 	if(move_to_lair)
 		send_to_lair()
+	//GS13 EDIT START
+	var/mob/living/carbon/human/H = owner.current
+	H.mirrorcanloadappearance = TRUE
+	H.checkloadappearance()
+	//GS13 EDIT END
 	. = ..()
 	if(allow_rename)
 		rename_wizard()

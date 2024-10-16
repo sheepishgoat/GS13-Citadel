@@ -1,7 +1,3 @@
-/datum/emote/proc/get_sound(mob/living/user)
-	return sound //by default just return this var.
-
-
 /datum/emote/speen
 	key = "speen"
 	key_third_person = "speeeeens!"
@@ -31,3 +27,19 @@
 		playsound(user, 'GainStation13/sound/voice/speen.ogg', 50, 1, -1)
 	. = ..()
 
+
+/datum/emote/living/cackle
+	key = "cackle"
+	key_third_person = "cackles"
+	message = "cackles hysterically!"
+	emote_type = EMOTE_AUDIBLE
+	muzzle_ignore = FALSE
+	restraint_check = FALSE
+
+/datum/emote/living/cackle/run_emote(mob/living/user, params)
+	if(ishuman(user))
+		if(user.nextsoundemote >= world.time)
+			return
+		user.nextsoundemote = world.time + 7
+		playsound(user, 'GainStation13/sound/voice//cackle_yeen.ogg', 50, 1, -1)
+	. = ..()

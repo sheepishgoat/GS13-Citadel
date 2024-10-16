@@ -139,7 +139,7 @@
 				to_chat(user, "<span class='warning'>[src] is unpowered!</span>")
 				teleporting = FALSE
 				return
-			if(!target_pad || QDELETED(target_pad) || (needs_power && (target_pad.machine_stat & NOPOWER))) // GS13 EDIT
+			if(!target_pad || QDELETED(target_pad) || (target_pad.needs_power && (target_pad.machine_stat & NOPOWER))) // GS13 EDIT
 				to_chat(user, "<span class='warning'>Linked pad is not responding to ping. Teleport aborted.</span>")
 				teleporting = FALSE
 				return

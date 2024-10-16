@@ -1,11 +1,14 @@
 mob/proc/checkloadappearance()
 	var/mob/living/carbon/human/H = src
+	if(!istype(H))
+		return FALSE
+
 	//This will be where the person gets to select their appearance instead of the random character
-	if (world.time <= (H.time_initialized + 900) && H.mirrorcanloadappearance == TRUE)
+	if (H.mirrorcanloadappearance == TRUE)
 		SEND_SOUND(H, 'sound/misc/server-ready.ogg')
 		to_chat(H, "<span class='boldannounce'>This ghost role allows you to select your loaded character's appearance. Make sure you have your ID in your ID slot, if you have one.</span>")
-		if(alert(H, "Would you like to load your currently loaded character's appearance?", "This can only be done up until 90s after you spawn.", "Yes", "No") == "Yes" && world.time <= (H.time_initialized + 900))
-			if(alert(H, "You should only load a character that has not currently died in the round. Do you accept this?", "Warning", "Yes", "No") == "Yes" && world.time <= (H.time_initialized + 900))
+		if(alert(H, "Would you like to load your currently loaded character's appearance?", "This can only be done up until 90s after you spawn.", "Yes", "No") == "Yes")
+			if(alert(H, "You should only load a character that has not currently died in the round. Do you accept this?", "Warning", "Yes", "No") == "Yes")
 				H.client?.prefs?.copy_to(H)
 				if (H.custom_body_size) //Do they have a custom size set?
 					H.resize(H.custom_body_size)
@@ -27,3 +30,6 @@ mob/proc/checkloadappearance()
 			else
 				to_chat(H, "<span class='boldannounce'>You either took too long or chose not to change. Alrighty. Remember, you have 90 seconds from spawn to get to a mirror and still do it if you wish.</span>")
 				return
+
+/mob/living/carbon/human
+	var/mirrorcanloadappearance = FALSE //Can the mob load their true appearance with a mirror?

@@ -102,7 +102,7 @@
 	return TRUE
 
 /obj/machinery/computer/camera_advanced/abductor/can_use(mob/user)
-	if(!isabductor(user))
+	if(check_if_abductor && !isabductor(user))
 		return FALSE
 	return ..()
 

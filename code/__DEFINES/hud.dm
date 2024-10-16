@@ -98,6 +98,7 @@
 #define ui_health "EAST-1:28,CENTER-1:15"
 #define ui_internal "EAST-1:28,CENTER+1:19"//CIT CHANGE - moves internal icon up a little bit to accommodate for the stamina meter
 #define ui_mood "EAST-1:28,CENTER-3:10"
+#define ui_arousal "EAST-1:28,CENTER-4:8"
 // #define ui_spacesuit "EAST-1:28,CENTER-4:10"
 
 //Pop-up inventory

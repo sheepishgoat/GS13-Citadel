@@ -56,6 +56,12 @@
 	if(send_to_spawnpoint)
 		move_to_spawnpoint()
 
+	//GS13 EDIT START
+	var/mob/living/carbon/human/H = owner.current
+	H.checkloadappearance()
+	//GS13 EDIT END
+
+
 /datum/antagonist/nukeop/get_team()
 	return nuke_team
 

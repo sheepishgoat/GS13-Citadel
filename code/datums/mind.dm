@@ -169,6 +169,8 @@
 		var/mob/living/L = new_character
 		if(L.client?.prefs && L.client.prefs.auto_ooc && L.client.prefs.chat_toggles & CHAT_OOC)
 			L.client.prefs.chat_toggles &= ~(CHAT_OOC)
+			L.canbearoused = L.client?.prefs?.arousable //Technically this should make taking over a character mean the body gain the new minds setting...
+			L.update_arousal_hud() //Removes the old icon
 
 	hide_ckey = current.client?.prefs?.hide_ckey
 

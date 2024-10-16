@@ -3,7 +3,7 @@
 //if you wanna use this on your own server go ahead, but alittle credit would always be nice! -quotefox
 //This still uses alot of cits arousal system!
 
-/obj/screen/arousal/ui_interact(mob/user)
+/atom/movable/screen/arousal/ui_interact(mob/user)
 	. = ..()
 	var/dat	=	{"<B>Genitals</B><BR><HR>"}
 
@@ -12,10 +12,9 @@
 		if(!G.nochange)
 			if(!G.dontlist)
 				// GS13: Fix spelling
-				dat	+= "<a href='byond://?src=[REF(src)];hide[G.name]=1'>[G.mode == "hidden" ? "[G.name] <font color='red'>(Hidden)</font>" : (G.mode == "clothes" ? "[G.name] <font color='yellow'>(Hidden by Clothes)</font>" : (G.mode == "visible" ? "[G.name] <font color='green'>(Visible)</font>" : "[G.name] <font color='green'>(Visible)</font>"))]</a><BR>"
+				dat	+= "<a href='byond://?src=[REF(src)];hide[G.name]=1'>[G.mode == GEN_VISIBLE_NEVER ? "[G.name] <font color='red'>(Hidden)</font>" : (G.mode == GEN_VISIBLE_NO_UNDIES ? "[G.name] <font color='yellow'>(Hidden by Undies)</font>" : (G.mode == GEN_VISIBLE_NO_CLOTHES ? "[G.name] <font color='yellow'>(Hidden by Clothes)</font>" : (G.mode == GEN_VISIBLE_ALWAYS ? "[G.name] <font color='green'>(Visible)</font>" : "[G.name] <font color='green'>(Visible)</font>")))]</a><BR>"
 
 	dat	+=	{"<BR><B>Contexual Options</B><BR><HR>"}
-	var/obj/item/organ/genital/penis/P = user.getorganslot("penis")
 	//Options
 	dat	+= "<a href='byond://?src=[REF(src)];masturbate=1'>Masturbate</A>"
 	dat	+=	"(Stimulate a sexual organ with your hands.)<BR>"
@@ -65,22 +64,13 @@
 				dat	+= "<a href='byond://?src=[REF(src)];climaxwith=1'>Climax with [user.pulling]</A>"
 				dat	+=	{"(Orgasm with another person.)<BR>"}
 
-				var/mob/living/carbon/human/H = user.pulling
-				if(H.breedable && P && H)
-					dat	+= "<a href='byond://?src=[REF(src)];impreg=1'>Impregnate [U.pulling] ([clamp(U.impregchance,0,100)]%)</A>"
-					dat	+=	"(Climax inside another person, and attempt to knock them up.)<BR>"
 	else
 		dat	+= "<span class='linkOff'>Climax over</span></A>"
 		dat	+=	"(Requires a partner)<BR>"
 		dat	+= "<span class='linkOff'>Climax with</span></A>"
 		dat	+=	"(Requires a partner)<BR>"
 
-	//old code needs to be cleaned
-	if(P)
-		if(P.condom == 1)
-			dat	+= "<a href='byond://?src=[REF(src)];removecondom=1'>Remove condom (penis)</A><BR>"
-		if(P.sounding == 1)
-			dat	+= "<a href='byond://?src=[REF(src)];removesound=1'>Remove sounding rod (penis)</A><BR>"
+
 	for(var/obj/item/organ/genital/G in U.internal_organs)
 		if(G.equipment) //they have equipment
 			dat	+= "<a href='byond://?src=[REF(src)];removeequipment[G.name]=1;'>Remove [G.equipment.name] ([G.name])</A><BR>"
@@ -94,7 +84,6 @@
 
 	var/datum/browser/popup = new(user, "arousal", "Arousal Panel")
 	popup.set_content(dat)
-	popup.set_title_image(user.browse_rsc_icon(icon, icon_state), 500,600)
 
 	popup.open()
 
@@ -102,7 +91,7 @@
 
 
 
-/obj/screen/arousal/Topic(href, href_list)
+/atom/movable/screen/arousal/Topic(href, href_list)
 	. = ..() //Sanity checks.
 	if(..())
 		return
@@ -121,36 +110,36 @@
 
 	if(href_list["hidepenis"])
 		var/obj/item/organ/genital/penis/P = usr.getorganslot("penis")
-		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by clothes", "Always hidden")
+		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by Undies", "Hidden by clothes", "Always hidden")
 		P.toggle_visibility(picked_visibility)
 
 	if(href_list["hidevagina"])
 		var/obj/item/organ/genital/vagina/V = usr.getorganslot("vagina")
-		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by clothes", "Always hidden")
+		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by Undies", "Hidden by clothes", "Always hidden")
 		V.toggle_visibility(picked_visibility)
 
 	if(href_list["hidebreasts"])
 		var/obj/item/organ/genital/breasts/B = usr.getorganslot(ORGAN_SLOT_BREASTS)
-		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by clothes", "Always hidden")
+		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by Undies", "Hidden by clothes", "Always hidden")
 		B.toggle_visibility(picked_visibility)
 
 	if(href_list["hidebelly"])
 		var/obj/item/organ/genital/belly/E = usr.getorganslot("belly")
-		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by clothes", "Always hidden")
+		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by Undies", "Hidden by clothes", "Always hidden")
 		E.toggle_visibility(picked_visibility)
 
-	if(href_list["hideanus"])
+	if(href_list["hidebutt"])
 		var/obj/item/organ/genital/butt/A = usr.getorganslot(ORGAN_SLOT_BUTT)
-		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by clothes", "Always hidden")
+		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by Undies", "Hidden by clothes", "Always hidden")
 		A.toggle_visibility(picked_visibility)
 
 	if(href_list["hidetesticles"])
 		var/obj/item/organ/genital/testicles/T = usr.getorganslot("testicles")
-		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by clothes", "Always hidden")
+		var/picked_visibility = input(usr, "Choose visibility", "Expose/Hide genitals", "Hidden by clothes") in list("Always visible", "Hidden by Undies", "Hidden by clothes", "Always hidden")
 		T.toggle_visibility(picked_visibility)
 
 	if(href_list["masturbate"])
-		if (H.arousalloss >= (H.max_arousal / 100) * 33) //requires 33% arousal.
+		if (H.arousal >= (H.max_arousal / 100) * 33) //requires 33% arousal.
 			H.solomasturbate()
 			return
 		else
@@ -158,7 +147,7 @@
 		return
 
 	if(href_list["container"])
-		if (H.arousalloss >= (H.max_arousal / 100) * 33) //requires 33% arousal.
+		if (H.arousal >= (H.max_arousal / 100) * 33) //requires 33% arousal.
 			H.cumcontainer()
 			return
 		else
@@ -166,7 +155,7 @@
 		return
 
 	if(href_list["clothesplosion"])
-		if (H.arousalloss >= (H.max_arousal / 100) * 33) //Requires 33% arousal.
+		if (H.arousal >= (H.max_arousal / 100) * 33) //Requires 33% arousal.
 			H.clothesplosion()
 			return
 		else
@@ -174,7 +163,7 @@
 		return
 
 	if(href_list["climax"])
-		if (H.arousalloss >= (H.max_arousal / 100) * 33) //requires 33% arousal.
+		if (H.arousal >= (H.max_arousal / 100) * 33) //requires 33% arousal.
 			H.climaxalone(FALSE)
 			return
 		else
@@ -182,7 +171,7 @@
 		return
 
 	if(href_list["climaxover"])
-		if (H.arousalloss >= (H.max_arousal / 100) * 33) //requires 33% arousal.
+		if (H.arousal >= (H.max_arousal / 100) * 33) //requires 33% arousal.
 			H.climaxover(usr.pulling)
 			return
 		else
@@ -190,7 +179,7 @@
 		return
 
 	if(href_list["climaxwith"])
-		if (H.arousalloss >= (H.max_arousal / 100) * 33) //requires 33% arousal.
+		if (H.arousal >= (H.max_arousal / 100) * 33) //requires 33% arousal.
 			H.climaxwith(usr.pulling)
 			return
 		else
@@ -198,7 +187,7 @@
 		return
 
 	if(href_list["impreg"])
-		if (H.arousalloss >= (H.max_arousal / 100) * 33) //requires 33% arousal.
+		if (H.arousal >= (H.max_arousal / 100) * 33) //requires 33% arousal.
 			H.impregwith(usr.pulling)
 			return
 		else
@@ -248,13 +237,6 @@
 		else
 			to_chat(usr, "<span class='warning'>Your belly is already at the maximum size! </span>")
 
-
-	if(href_list["removecondom"])
-		H.menuremovecondom()
-
-	if(href_list["removesound"])
-		H.menuremovesounding()
-
 	if(href_list["removeequipmentpenis"])
 		var/obj/item/organ/genital/penis/O = usr.getorganslot("penis")
 		var/obj/item/I = O.equipment
@@ -302,7 +284,7 @@
 	src.ui_interact(usr)
 
 
-obj/screen/arousal/proc/kiss()
+/atom/movable/screen/arousal/proc/kiss()
 	if(usr.restrained(TRUE))
 		to_chat(usr, "<span class='warning'>You can't do that while restrained!</span>")
 		return
@@ -310,7 +292,7 @@ obj/screen/arousal/proc/kiss()
 	if (H)
 		H.kisstarget(H.pulling)
 
-obj/screen/arousal/proc/feed()
+/atom/movable/screen/arousal/proc/feed()
 	if(usr.restrained(TRUE))
 		to_chat(usr, "<span class='warning'>You can't do that while restrained!</span>")
 		return
@@ -318,7 +300,7 @@ obj/screen/arousal/proc/feed()
 	if (H)
 		H.genitalfeed(H.pulling)
 
-obj/screen/arousal/proc/feedfrom()
+/atom/movable/screen/arousal/proc/feedfrom()
 	if(usr.restrained(TRUE))
 		to_chat(usr, "<span class='warning'>You can't do that while restrained!</span>")
 		return
@@ -326,54 +308,13 @@ obj/screen/arousal/proc/feedfrom()
 	if (H)
 		H.genitalfeedfrom(H.pulling)
 
-obj/screen/arousal/proc/feedyourself()
+/atom/movable/screen/arousal/proc/feedyourself()
 	if(usr.restrained(TRUE))
 		to_chat(usr, "<span class='warning'>You can't do that while restrained!</span>")
 		return
 	var/mob/living/carbon/human/H = usr
 	if (H)
 		H.genitalfeedyourself()
-
-
-/mob/living/carbon/human/proc/menuremovecondom()
-
-	if(restrained(TRUE))
-		to_chat(src, "<span class='warning'>You can't do that while restrained!</span>")
-		return
-	var/free_hands = get_num_arms()
-	if(!free_hands)
-		to_chat(src, "<span class='warning'>You need at least one free arm.</span>")
-		return
-	var/obj/item/organ/genital/penis/P = getorganslot("penis")
-	if(!P.condom)
-		to_chat(src, "<span class='warning'>You don't have a condom on!</span>")
-		return
-	if(P.condom)
-		to_chat(src, "<span class='warning'>You tug the condom off the end of your penis!</span>")
-		removecondom()
-		src.ui_interact(usr) //reopen dialog
-		return
-	return
-
-/mob/living/carbon/human/proc/menuremovesounding()
-
-	if(restrained(TRUE))
-		to_chat(src, "<span class='warning'>You can't do that while restrained!</span>")
-		return
-	var/free_hands = get_num_arms()
-	if(!free_hands)
-		to_chat(src, "<span class='warning'>You need at least one free arm.</span>")
-		return
-	var/obj/item/organ/genital/penis/P = getorganslot("penis")
-	if(!P.sounding)
-		to_chat(src, "<span class='warning'>You don't have a rod inside!</span>")
-		return
-	if(P.sounding)
-		to_chat(src, "<span class='warning'>You pull the rod off from the tip of your penis!</span>")
-		removesounding()
-		src.ui_interact(usr) //reopen dialog
-		return
-	return
 
 /mob/living/carbon/human/proc/solomasturbate()
 	if(restrained(TRUE))
@@ -437,10 +378,8 @@ obj/screen/arousal/proc/feedyourself()
 		var/mob/living/partner = L
 		if(partner)
 			src << browse(null, "window=arousal") //alls fine, we can close the window now.
-			var/obj/item/organ/genital/penis/P = picked_organ
 			var/spillage = "No" //default to no, just incase player has items on to prevent climax
-			if(!P.condom == 1&&!P.sounding == 1) //you cant climax with a condom on or sounding in.
-				spillage = input(src, "Would your fluids spill outside?", "Choose overflowing option", "Yes") as anything in list("Yes", "No")
+			spillage = input(src, "Would your fluids spill outside?", "Choose overflowing option", "Yes") as anything in list("Yes", "No")
 			if(spillage == "Yes")
 				mob_climax_partner(picked_organ, partner, TRUE, FALSE, FALSE)
 			else
@@ -463,13 +402,6 @@ obj/screen/arousal/proc/feedyourself()
 		src << browse(null, "window=arousal") //alls fine, we can close the window now.
 		var/mob/living/partner = L
 		if(partner)
-			var/obj/item/organ/genital/penis/P = picked_organ
-			if(P.condom == 1)
-				to_chat(src, "<span class='warning'>You cannot do this action with a condom on.</span>")
-				return
-			if(P.sounding == 1)
-				to_chat(src, "<span class='warning'>You cannot do this action with a sounding in.</span>")
-				return
 			mob_climax_partner(picked_organ, partner, FALSE, FALSE, TRUE)
 		else
 			to_chat(src, "<span class='warning'>You cannot do this alone.</span>")
@@ -494,6 +426,7 @@ obj/screen/arousal/proc/feedyourself()
 
 /mob/living/carbon/human/proc/impregwith(mob/living/T)
 
+	/*GS13 Port - Do we even do breeding in legacy?
 	var/mob/living/carbon/human/L = pick_partner()
 	var/obj/item/organ/genital/picked_organ
 	picked_organ = src.getorganslot("penis") //Impregnation must be done with a penis.
@@ -504,13 +437,6 @@ obj/screen/arousal/proc/feedyourself()
 				to_chat(src, "<span class='warning'>Your partner cannot be impregnated.</span>")//some fuckary happening, you shouldnt even get to this point tbh.
 				return
 			var/obj/item/organ/genital/penis/P = picked_organ
-			 //you cant impreg with a condom on or sounding in.
-			if(P.condom == 1)
-				to_chat(src, "<span class='warning'>You cannot do this action with a condom on.</span>")
-				return
-			if(P.sounding == 1)
-				to_chat(src, "<span class='warning'>You cannot do this action with a sounding in.</span>")
-				return
 			src << browse(null, "window=arousal") //alls fine, we can close the window now.
 			//Keeping this for messy fun
 			var/spillage = input(src, "Would your fluids spill outside?", "Choose overflowing option", "Yes") as anything in list("Yes", "No")
@@ -524,6 +450,8 @@ obj/screen/arousal/proc/feedyourself()
 	else //no penis :(
 		to_chat(src, "<span class='warning'>You cannot impregnate without a penis.</span>")
 		return
+		*/
+	return
 
 /mob/living/carbon/human/proc/cumcontainer(mob/living/T)
 	//We'll need hands and no restraints.
@@ -580,14 +508,6 @@ obj/screen/arousal/proc/feedyourself()
 			picked_organ = pick_climax_genitals() //Gotta be climaxable, not just masturbation, to fill with fluids.
 			if(picked_organ)
 				//Good, got an organ, time to pick a container
-				if(picked_organ.name == "penis")//if the select organ is a penis
-					var/obj/item/organ/genital/penis/P = src.getorganslot("penis")
-					if(P.condom) //if the penis is condomed
-						to_chat(src, "<span class='warning'>You cannot feed someone when there is a condom over your [picked_organ.name].</span>")
-						return
-					if(P.sounding) //if the penis is sounded
-						to_chat(src, "<span class='warning'>You cannot feed someone when there is a rod inside your [picked_organ.name].</span>")
-						return
 				if(picked_organ.producing) //Can it produce its own fluids, such as breasts?
 					fluid_source = picked_organ.reagents
 				else
@@ -605,7 +525,7 @@ obj/screen/arousal/proc/feedyourself()
 										"<span class='userlove'>You used your [picked_organ.name] to feed [L.name] a total of [total_fluids]u's.</span>")
 					SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "orgasm", /datum/mood_event/orgasm)
 					if(picked_organ.can_climax)
-						setArousalLoss(min_arousal)
+						setArousal(min_arousal)
 
 			else //They either lack organs that can climax, or they didn't pick one.
 				to_chat(src, "<span class='warning'>You cannot fill anything without choosing exposed genitals.</span>")
@@ -633,14 +553,6 @@ obj/screen/arousal/proc/feedyourself()
 
 	if(picked_organ)
 		//Good, got an organ, time to pick a container
-		if(picked_organ.name == "penis")//if the select organ is a penis
-			var/obj/item/organ/genital/penis/P = L.getorganslot("penis")
-			if(P.condom) //if the penis is condomed
-				to_chat(src, "<span class='warning'>You cannot feed from [picked_organ.name] when there is a condom over it.</span>")
-				return
-			if(P.sounding) //if the penis is sounded
-				to_chat(src, "<span class='warning'>You cannot feed from [picked_organ.name] when there is a rod inside it.</span>")
-				return
 		if(picked_organ.producing) //Can it produce its own fluids, such as breasts?
 			fluid_source = picked_organ.reagents
 		else
@@ -658,7 +570,7 @@ obj/screen/arousal/proc/feedyourself()
 								"<span class='userlove'>You used [L.name]'s [picked_organ.name] to feed with a total of [total_fluids]u's.</span>")
 			SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "orgasm", /datum/mood_event/orgasm)
 			if(picked_organ.can_climax)
-				L.setArousalLoss(min_arousal)
+				L.setArousal(min_arousal)
 
 	else //They either lack organs that can climax, or they didn't pick one.
 		to_chat(src, "<span class='warning'>You cannot fill anything without choosing exposed genitals.</span>")
@@ -672,14 +584,6 @@ obj/screen/arousal/proc/feedyourself()
 	picked_organ = pick_climax_genitals() //Gotta be climaxable, not just masturbation, to fill with fluids.
 	if(picked_organ)
 		//Good, got an organ, time to pick a container
-		if(picked_organ.name == "penis")//if the select organ is a penis
-			var/obj/item/organ/genital/penis/P = src.getorganslot("penis")
-			if(P.condom) //if the penis is condomed
-				to_chat(src, "<span class='warning'>You cannot feed yourself when there is a condom over your [picked_organ.name].</span>")
-				return
-			if(P.sounding) //if the penis is sounded
-				to_chat(src, "<span class='warning'>You cannot feed yourself when there is a rod inside your [picked_organ.name].</span>")
-				return
 		if(picked_organ.producing) //Can it produce its own fluids, such as breasts?
 			fluid_source = picked_organ.reagents
 		else
@@ -697,7 +601,7 @@ obj/screen/arousal/proc/feedyourself()
 								"<span class='userlove'>You used your [picked_organ.name] to feed yourself a total of [total_fluids]u's.</span>")
 			SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "orgasm", /datum/mood_event/orgasm)
 			if(picked_organ.can_climax)
-				setArousalLoss(min_arousal)
+				setArousal(min_arousal)
 
 	else //They either lack organs that can climax, or they didn't pick one.
 		to_chat(src, "<span class='warning'>You cannot fill anything without choosing exposed genitals.</span>")

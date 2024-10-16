@@ -94,6 +94,7 @@
 	var/datum/wires/wires = null
 
 	var/icon/blood_splatter_icon
+	var/icon/cum_splatter_icon
 	var/list/fingerprints
 	var/list/fingerprintshidden
 	var/list/blood_DNA

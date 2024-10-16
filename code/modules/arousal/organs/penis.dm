@@ -6,6 +6,7 @@
 	zone = BODY_ZONE_PRECISE_GROIN
 	slot = ORGAN_SLOT_PENIS
 	masturbation_verb = "stroke"
+	can_climax				= TRUE
 	arousal_verb = "You pop a boner"
 	unarousal_verb = "Your boner goes down"
 	genital_flags = CAN_MASTURBATE_WITH|CAN_CLIMAX_WITH|GENITAL_CAN_AROUSE|UPDATE_OWNER_APPEARANCE|GENITAL_UNDIES_HIDDEN|GENITAL_CAN_TAUR

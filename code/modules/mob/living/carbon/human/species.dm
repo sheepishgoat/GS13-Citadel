@@ -546,6 +546,13 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 
 	SEND_SIGNAL(C, COMSIG_SPECIES_GAIN, src, old_species)
 
+	//GS13 Port - Add back arousal
+	if(NOAROUSAL in species_traits)
+		C.canbearoused = FALSE
+	else
+		if(C.client)
+			C.canbearoused = C.client?.prefs?.arousable
+
 /datum/species/proc/update_species_slowdown(mob/living/carbon/human/H)
 	H.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/species, TRUE, multiplicative_slowdown = speedmod)
 
