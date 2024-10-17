@@ -35,9 +35,7 @@
 	. = ..()
 	if(!anchored)
 		return
-	var/move_dir = get_dir(loc, AM.loc)
-	if(move_dir == eat_dir)
-		return TRUE
+	return TRUE
 
 /obj/machinery/plumbing/grinder_chemical/Crossed(atom/movable/AM)
 	. = ..()
@@ -61,4 +59,6 @@
 			return
 		I.on_grind()
 		reagents.add_reagent_list(I.grind_results)
+		if(I.reagents)
+			I.reagents.trans_to(reagents, I.reagents.total_volume)
 		qdel(I)
