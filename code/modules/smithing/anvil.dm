@@ -190,7 +190,7 @@
 		outrightfailchance = 1
 		artifactrolled = FALSE
 		if(user.mind.skill_holder)
-			user.mind.auto_gain_experience(/datum/skill/level/dwarfy/blacksmithing, 25, 400, silent = FALSE)
+			user.mind.auto_gain_experience(/datum/skill/level/dwarfy/blacksmithing, 65, 400, silent = FALSE) //GS13 EDIT SMITHING
 	for(var/i in smithrecipes)
 		if(i == stepsdone)
 			var/turf/T = get_turf(user)
@@ -223,7 +223,7 @@
 			outrightfailchance = 1
 			artifactrolled = FALSE
 			if(user.mind.skill_holder)
-				user.mind.auto_gain_experience(/datum/skill/level/dwarfy/blacksmithing, 50, 10000000, silent = FALSE)
+				user.mind.auto_gain_experience(/datum/skill/level/dwarfy/blacksmithing, 125, 10000000, silent = FALSE) //GS13 EDIT SMITHING
 			break
 
 /obj/structure/anvil/debugsuper

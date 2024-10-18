@@ -14,6 +14,7 @@
 	points = 40
 	custom_materials = list(/datum/material/calorite=MINERAL_MATERIAL_AMOUNT)
 	refined_type = /obj/item/stack/sheet/mineral/calorite
+	mine_experience = 20
 
 /obj/item/stack/sheet/mineral/calorite
 	name = "calorite"
@@ -25,7 +26,10 @@
 	novariants = TRUE
 	grind_results = list(/datum/reagent/consumable/lipoifier = 2)
 	point_value = 40
+	custom_materials = list(/datum/material/calorite=MINERAL_MATERIAL_AMOUNT)
 	merge_type = /obj/item/stack/sheet/mineral/calorite
+	material_type = /datum/material/calorite
+	walltype = /turf/closed/wall/mineral/calorite
 
 GLOBAL_LIST_INIT(calorite_recipes, list ( \
 	new/datum/stack_recipe("Calorite tile", /obj/item/stack/tile/mineral/calorite, 1, 4, 20), \

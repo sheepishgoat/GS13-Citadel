@@ -71,6 +71,9 @@
 
 	if(!mob.Process_Spacemove(direction))
 		return FALSE
+	//GS13 EDIT
+	if(HAS_TRAIT(mob, TRAIT_NO_MOVE))
+		return FALSE
 	//We are now going to move
 	var/add_delay = mob.movement_delay()
 	mob.set_glide_size(DELAY_TO_GLIDE_SIZE(add_delay * ( (NSCOMPONENT(direction) && EWCOMPONENT(direction)) ? 2 : 1 ) ), FALSE) // set it now in case of pulled objects

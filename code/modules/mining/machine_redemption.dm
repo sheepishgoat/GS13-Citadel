@@ -18,7 +18,7 @@
 	var/ore_pickup_rate = 15
 	var/ore_multiplier = 1
 	var/point_upgrade = 1
-	var/list/ore_values = list(/datum/material/glass = 1, /datum/material/iron = 1, /datum/material/plasma = 15, /datum/material/silver = 16, /datum/material/gold = 18, /datum/material/titanium = 30, /datum/material/uranium = 30, /datum/material/diamond = 50, /datum/material/bluespace = 50, /datum/material/bananium = 60)
+	var/list/ore_values = list(/datum/material/glass = 1, /datum/material/iron = 1, /datum/material/plasma = 15, /datum/material/silver = 16, /datum/material/gold = 18, /datum/material/titanium = 30, /datum/material/uranium = 30, /datum/material/diamond = 50, /datum/material/bluespace = 50, /datum/material/bananium = 60, /datum/material/calorite = 30) //GS13 EDIT, CALORITE
 	var/message_sent = FALSE
 	var/list/ore_buffer = list()
 	var/datum/techweb/stored_research
@@ -46,7 +46,7 @@
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
 		ore_pickup_rate_temp = 15 * M.rating
 	for(var/obj/item/stock_parts/micro_laser/L in component_parts)
-		point_upgrade_temp = 0.65 + (0.35 * L.rating)
+		point_upgrade_temp = 0.83 + (0.17 * L.rating) //GS13 EDIT
 	avg_bin_level /= bins? bins : 1
 	ore_multiplier = STANDARD_PART_LEVEL_ORE_COEFFICIENT(avg_bin_level)
 	ore_pickup_rate = ore_pickup_rate_temp

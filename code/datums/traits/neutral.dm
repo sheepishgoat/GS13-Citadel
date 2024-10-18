@@ -163,6 +163,14 @@
 	lose_text = "<span class='notice'>You no longer feel like you should be eating trash.</span>"
 	mob_trait = TRAIT_TRASHCAN
 
+// GS13 EDIT START
+/datum/quirk/trashcan/add()
+	add_verb(quirk_holder, /mob/living/proc/eat_trash)
+
+/datum/quirk/trashcan/remove()
+	remove_verb(quirk_holder, /mob/living/proc/eat_trash)
+// GS13 EDIT END
+
 // Moved Colorist quirk to a loadout item
 
 /datum/quirk/salt_sensitive
