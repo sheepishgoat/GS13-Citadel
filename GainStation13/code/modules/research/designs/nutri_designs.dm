@@ -129,6 +129,18 @@
 	construction_time = 100
 	category = list("Cyborg Upgrade Modules")
 
+/datum/design/calorite_plating
+	name = "MOD Calorite Plating" //We'd need to add a calorite MODsuit.
+	desc = "GATO does not reccomend that you deep fry this, even if it smells like bacon.."
+	id = "mod_plating_calorite"
+	build_type = PROTOLATHE | MECHFAB
+	materials = list(/datum/material/iron = 6000, /datum/material/glass = 3000, /datum/material/calorite = 6000)
+	construction_time = 15 SECONDS
+	build_path = /obj/item/mod/construction/armor/calorite
+	category = list("MODsuit Chassis", "MODsuit Designs")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE
+	research_icon = 'GainStation13/icons/obj/clothing/modsuit/mod_construction_GS.dmi'
+	research_icon_state = "calorite-plating"
 //todo: make a seperate file for extra borg modules
 
 /obj/item/borg/upgrade/cookiesynth
@@ -179,6 +191,11 @@
 		R.module.remove_module(S, TRUE)
 
 
+/obj/item/mod/construction/armor/calorite
+	name = "MOD Calorite Plating"
+	desc = "GATO does not reccomend that you deep fry this, even if it smells like bacon.."
+	icon = 'GainStation13/icons/obj/clothing/modsuit/mod_construction_GS.dmi'
+	icon_state = "calorite-plating" // basic implmentation of calorite plating, with coder sprite.
 
 //cyborg regen feeding tube
 
