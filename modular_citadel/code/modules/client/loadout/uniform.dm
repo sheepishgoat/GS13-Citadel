@@ -44,6 +44,10 @@
 	name = "Assistant's formal uniform"
 	path = /obj/item/clothing/under/misc/assistantformal
 
+/datum/gear/uniform/greymodular
+	name = "Grey Modular Jumpsuit"
+	path = /obj/item/clothing/under/color/grey/modular
+
 /datum/gear/uniform/maidcostume
 	name = "Maid costume"
 	path = /obj/item/clothing/under/costume/maid
