@@ -21,10 +21,8 @@ GLOBAL_LIST_INIT(uncapped_resize_areas, list(/area/command/bridge, /area/mainten
 	var/doorstuck = 0
 
 	var/fullness = FULLNESS_LEVEL_HALF_FULL
-	var/fullness_reduction_timer = 0
 	var/burpslurring = 0
-
-	var/fullness_reducion_timer = 0 // When was the last time they emoted to reduce their fullness
+	var/fullness_reduction_timer = 0 // When was the last time they emoted to reduce their fullness
 
 /**
 * Adjusts the fatness level of the parent mob.

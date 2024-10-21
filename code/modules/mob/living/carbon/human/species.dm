@@ -1608,14 +1608,30 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				H.remove_movespeed_modifier(/datum/movespeed_modifier/hunger)
 
 	switch(H.nutrition)
-		if(NUTRITION_LEVEL_FULL to INFINITY)
-			H.throw_alert("nutrition", /atom/movable/screen/alert/fat)
+		//if(NUTRITION_LEVEL_FULL to INFINITY)
+		//	H.throw_alert("nutrition", /atom/movable/screen/alert/fat)
 		if(NUTRITION_LEVEL_HUNGRY to NUTRITION_LEVEL_FULL)
 			H.clear_alert("nutrition")
 		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_HUNGRY)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/hungry)
 		if(0 to NUTRITION_LEVEL_STARVING)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/starving)
+
+	//GS13 Port - Add back the fullness Alerts
+	switch(H.fullness)
+		if(0 to FULLNESS_LEVEL_BLOATED)
+			H.clear_alert("fullness")
+		if(FULLNESS_LEVEL_BLOATED to FULLNESS_LEVEL_BEEG)
+			H.throw_alert("fullness", /atom/movable/screen/alert/gs13/bloated)
+		if(FULLNESS_LEVEL_BEEG to FULLNESS_LEVEL_NOMOREPLZ)
+			H.throw_alert("fullness", /atom/movable/screen/alert/gs13/stuffed)
+		if(FULLNESS_LEVEL_NOMOREPLZ to INFINITY)
+			H.throw_alert("fullness", /atom/movable/screen/alert/gs13/beegbelly)
+
+	//GS13 - Update here for changing belly to match stuffed-ness
+	var/obj/item/organ/genital/belly/B= H.getorganslot("belly")
+	if(!isnull(B) && istype(B))
+		B.update()
 
 	//GS13 EDIT
 	switch(H.fatness)

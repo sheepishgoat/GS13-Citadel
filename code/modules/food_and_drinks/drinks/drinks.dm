@@ -46,6 +46,13 @@
 	checkLiked(fraction, M)
 	reagents.reaction(M, INGEST, fraction)
 	reagents.trans_to(M, gulp_size, log = TRUE)
+	//GS13 Port - Fullness
+	if(iscarbon(M))
+		var/mob/living/carbon/human/human_eater = M
+		if(HAS_TRAIT(M, TRAIT_VORACIOUS))
+			human_eater.fullness += min(gulp_size * 0.67, reagents.total_volume * 0.67)
+		else
+			human_eater.fullness += min(gulp_size, reagents.total_volume) // GS13 drinks will fill your stomach
 	playsound(M.loc,'sound/items/drink.ogg', rand(10,50), 1)
 	return TRUE
 

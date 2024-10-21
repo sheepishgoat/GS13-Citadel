@@ -393,11 +393,11 @@
 	//GS13 EDIT FAT EXAMINE
 	switch(fullness)
 		if(FULLNESS_LEVEL_BLOATED to FULLNESS_LEVEL_BEEG)
-			. += "[t_He] look[p_s()] like [t_He] ate a bit too much.\n"
+			. += span_warning("[t_He] look[p_s()] like [t_He] ate a bit too much.\n")
 		if(FULLNESS_LEVEL_BEEG to FULLNESS_LEVEL_NOMOREPLZ)
-			. += "[t_His] stomach looks very round and very full.\n"
+			. += span_warning("[t_His] stomach looks very round and very full.\n")
 		if(FULLNESS_LEVEL_NOMOREPLZ to INFINITY)
-			. += "[t_His] stomach has been stretched to enormous proportions.\n"
+			. += span_boldwarning("[t_His] stomach has been stretched to enormous proportions.\n")
 
 	if(nutrition < NUTRITION_LEVEL_STARVING - 50)
 		. += "[t_He] [t_is] severely malnourished.\n"

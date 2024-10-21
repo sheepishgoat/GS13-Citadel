@@ -2,7 +2,7 @@
 	if(!ishuman(src))
 		return
 
-	if(fullness >= FULLNESS_LEVEL_BLOATED && fullness_reducion_timer + FULLNESS_REDUCTION_COOLDOWN < world.time)
+	if(fullness >= FULLNESS_LEVEL_BLOATED && fullness_reduction_timer + FULLNESS_REDUCTION_COOLDOWN < world.time)
 
 		fullness -= amount // Remove Fullness
 

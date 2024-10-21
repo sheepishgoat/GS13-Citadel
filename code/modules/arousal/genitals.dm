@@ -71,6 +71,8 @@
 	if(genital_flags & UPDATE_OWNER_APPEARANCE && owner && ishuman(owner))
 		var/mob/living/carbon/human/H = owner
 		H.update_genitals()
+		if(owner)//GS13: rebuild overlays on genitals appearance update, for modular clothes
+			owner.update_inv_w_uniform()
 	if(linked_organ_slot || (linked_organ && !owner))
 		update_link()
 
@@ -356,7 +358,13 @@
 					if("belly_color")
 						genital_overlay.color = "#[dna.features["belly_color"]]"
 
-			genital_overlay.icon_state = "[G.slot]_[S.icon_state]_[size][(dna.species.use_skintones && !dna.skin_tone_override) ? "_s" : ""]_[aroused_state]_[layertext]"
+			//GS13 Port - Specific check for belly since we need organ values specifically and not sprite_accessories, maybe can rewrite this more generically later?
+			// In any case I don't want any specific calculations done here
+			if(G.slot == "belly")
+				genital_overlay.icon = G.icon
+				genital_overlay.icon_state = "[G.icon_state]_[aroused_state]_[layertext]"
+			else
+				genital_overlay.icon_state = "[G.slot]_[S.icon_state]_[size][(dna.species.use_skintones && !dna.skin_tone_override) ? "_s" : ""]_[aroused_state]_[layertext]"
 
 			if(layers_num[layer] == GENITALS_FRONT_LAYER && G.genital_flags & GENITAL_THROUGH_CLOTHES)
 				genital_overlay.layer = -GENITALS_EXPOSED_LAYER
