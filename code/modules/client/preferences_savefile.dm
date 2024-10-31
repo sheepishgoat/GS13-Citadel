@@ -952,6 +952,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["extreme_fatness_vulnerable"] >> extreme_fatness_vulnerable
 	S["blueberry_inflation"] >> blueberry_inflation
 	S["feature_breasts_fluid"]			>> features["breasts_fluid"]
+	S["alt_titles_preferences"] 		>> alt_titles_preferences
 
 	//gear loadout
 	if(istext(S["loadout"]))
@@ -1142,6 +1143,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	loadout_slot = sanitize_num_clamp(loadout_slot, 1, MAXIMUM_LOADOUT_SAVES, 1, TRUE)
 
+	//GS13 Port - Alt job titles
+	alt_titles_preferences = SANITIZE_LIST(alt_titles_preferences)
+	if(SSjob)
+		for(var/datum/job/job in SSjob.occupations)
+			if(alt_titles_preferences[job.title])
+				if(!(alt_titles_preferences[job.title] in job.alt_titles))
+					alt_titles_preferences.Remove(job.title)
+
 	cit_character_pref_load(S)
 
 	return TRUE
@@ -1292,6 +1301,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_butt_color"], features["butt_color"])
 	WRITE_FILE(S["feature_butt_size"], features["butt_size"])
 	WRITE_FILE(S["feature_butt_visibility"], features["butt_visibility"])
+	//GS13 Port - Alt job titles
+	WRITE_FILE(S["alt_titles_preferences"], alt_titles_preferences)
 	//belly features
 	WRITE_FILE(S["feature_has_belly"], features["has_belly"])
 	WRITE_FILE(S["feature_belly_size"], features["belly_size"])

@@ -3994,6 +3994,7 @@
 #include "GainStation13\code\modules\hydroponics\lipoplant.dm"
 #include "GainStation13\code\modules\hydroponics\munchies_weed.dm"
 #include "GainStation13\code\modules\hydroponics\grown\berries.dm"
+#include "GainStation13\code\modules\job\job_alt_titles.dm"
 #include "GainStation13\code\modules\loadout\backpack.dm"
 #include "GainStation13\code\modules\loadout\gloves.dm"
 #include "GainStation13\code\modules\loadout\neck.dm"
