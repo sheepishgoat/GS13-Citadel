@@ -15,7 +15,7 @@
 	desc = "A strangely voluptous suit. Offers little to no protection. It also appears to have minor flab-compressing properties."
 	mob_overlay_icon =  'GainStation13/icons/obj/clothing/haydee_modular.dmi'
 	anthro_mob_worn_overlay = 'GainStation13/icons/obj/clothing/haydee_modular.dmi'
-	icon_state = "haydee_suit1"
+	icon_state = "haydee_suit"
 	item_state = "item_haydee"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 25, "fire" = 5, "acid" = 5)
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals)
