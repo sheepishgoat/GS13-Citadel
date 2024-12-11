@@ -135,6 +135,10 @@ GLOBAL_LIST_INIT(ai_core_display_screens, list(
 	"Girl-Malf",
 	"Database",
 	"Dorf",
+	//GS13 CONTENT START
+	"Fat",
+	"Fat hair",
+	//GS13 CONTENT END
 	"Firewall",
 	"Fuzzy",
 	"Gentoo",
