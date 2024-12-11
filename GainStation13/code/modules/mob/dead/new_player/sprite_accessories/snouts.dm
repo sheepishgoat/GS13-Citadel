@@ -53,3 +53,10 @@
 	icon_state = "feasterndnw"
 	color_src = MATRIXED
 	matrixed_sections = MATRIX_RED_GREEN
+
+/datum/sprite_accessory/snouts/mam_snouts/hhorse
+	name = "Horse"
+	icon = 'GainStation13/icons/mob/markings/mam_snouts.dmi'
+	icon_state = "hhorse"
+	color_src = MATRIXED
+	matrixed_sections = MATRIX_RED_GREEN
