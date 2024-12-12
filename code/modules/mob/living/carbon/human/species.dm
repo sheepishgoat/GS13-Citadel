@@ -1862,6 +1862,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	var/aim_for_groin  = user.zone_selected == "groin"
 	var/target_aiming_for_groin = target.zone_selected == "groin"
 
+	var/opposite_dir = user.dir == DIRFLIP(target.dir) //GS13 edit, slap gut
+
 	if(target.check_martial_melee_block()) //END EDIT
 		target.visible_message("<span class='warning'>[target] blocks [user]'s disarm attempt!</span>", target = user, \
 			target_message = "<span class='warning'>[target] blocks your disarm attempt!</span>")
@@ -1883,25 +1885,51 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 		if (!HAS_TRAIT(target, TRAIT_PERMABONER))
 			stop_wagging_tail(target)
 		return FALSE
-	else if(aim_for_groin && (target == user || target.lying || same_dir) && (target_on_help || target_restrained || target_aiming_for_groin))
-		if(target.client?.prefs.cit_toggles & NO_ASS_SLAP)
-			to_chat(user,"A force stays your hand, preventing you from slapping \the [target]'s ass!")
-			return FALSE
-		if(!user.UseStaminaBuffer(3, warn = TRUE))
-			return FALSE
-		user.do_attack_animation(target, ATTACK_EFFECT_ASS_SLAP)
-		target.adjust_arousal(20,"masochism", maso = TRUE)
-		if (ishuman(target) && HAS_TRAIT(target, TRAIT_MASO) && target.has_dna() && prob(10))
-			target.mob_climax(forced_climax=TRUE, cause = "masochism")
-		if (!HAS_TRAIT(target, TRAIT_PERMABONER))
-			stop_wagging_tail(target)
-		playsound(target.loc, 'sound/weapons/slap.ogg', 50, 1, -1)
-		target.visible_message(\
-			"<span class='danger'>\The [user] slaps [user == target ? "[user.p_their()] own" : "\the [target]'s"] ass!</span>",\
-			"<span class='notice'>[user] slaps your ass! </span>",\
-			"You hear a slap.", target = user, target_message = "<span class='notice'>You slap [user == target ? "your own" : "\the [target]'s"] ass! </span>")
+	//GS13 edit - checks for opposite_dir in else if, and then again to determine whether it's gut or ass slap.
+	else if(aim_for_groin && (target == user || target.lying || same_dir || opposite_dir) && (target_on_help || target_restrained || target_aiming_for_groin))
+		if(!opposite_dir)
+			if(target.client?.prefs.cit_toggles & NO_ASS_SLAP)
+				to_chat(user,"A force stays your hand, preventing you from slapping \the [target]'s ass!")
+				return FALSE
+			if(!user.UseStaminaBuffer(3, warn = TRUE))
+				return FALSE
+			user.do_attack_animation(target, ATTACK_EFFECT_ASS_SLAP)
+			target.adjust_arousal(20,"masochism", maso = TRUE)
+			if (ishuman(target) && HAS_TRAIT(target, TRAIT_MASO) && target.has_dna() && prob(10))
+				target.mob_climax(forced_climax=TRUE, cause = "masochism")
+			if (!HAS_TRAIT(target, TRAIT_PERMABONER))
+				stop_wagging_tail(target)
+			playsound(target.loc, 'sound/weapons/slap.ogg', 50, 1, -1)
+			target.visible_message(\
+				"<span class='danger'>\The [user] slaps [user == target ? "[user.p_their()] own" : "\the [target]'s"] ass!</span>",\
+				"<span class='notice'>[user] slaps your ass! </span>",\
+				"You hear a slap.", target = user, target_message = "<span class='notice'>You slap [user == target ? "your own" : "\the [target]'s"] ass! </span>")
 
-		return FALSE
+			return FALSE
+
+
+		else
+			if(target.client?.prefs.cit_toggles & NO_ASS_SLAP)
+				to_chat(user,"A force stays your hand, preventing you from slapping \the [target]'s gut!")
+				return FALSE
+			if(!user.UseStaminaBuffer(3, warn = TRUE))
+				return FALSE
+			user.do_attack_animation(target, ATTACK_EFFECT_ASS_SLAP)
+			target.adjust_arousal(20,"masochism", maso = TRUE)
+			if (ishuman(target) && HAS_TRAIT(target, TRAIT_MASO) && target.has_dna() && prob(10))
+				target.mob_climax(forced_climax=TRUE, cause = "masochism")
+			if (!HAS_TRAIT(target, TRAIT_PERMABONER))
+				stop_wagging_tail(target)
+			playsound(target.loc, 'sound/weapons/slap.ogg', 50, 1, -1)
+			target.visible_message(\
+				"<span class='danger'>\The [user] slaps [user == target ? "[user.p_their()] own" : "\the [target]'s"] gut!</span>",\
+				"<span class='notice'>[user] slaps your gut! </span>",\
+				"You hear a slap.", target = user, target_message = "<span class='notice'>You slap [user == target ? "your own" : "\the [target]'s"] gut! </span>")
+			to_chat(target, "<span class='danger'><B>The pressure on your stomach causes you to belch!</B></span>")
+			target.emote(pick("belch","burp"))
+
+			return FALSE
+	//end of GS13 edit
 
 	else
 		user.do_attack_animation(target, ATTACK_EFFECT_DISARM)
