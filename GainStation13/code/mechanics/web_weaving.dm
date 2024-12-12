@@ -41,7 +41,7 @@
 		var/obj/item/clothing/suit = target.wear_suit
 		if(istype(suit, /obj/item/clothing/suit/straight_jacket/web))
 			user.visible_message("<span class='warning'>[user] begins to fully encase [target] in a cocoon!</span>", "<span class='warning'>You begin to fully encase [target] in a cocoon.</span>")
-			if(!do_after_mob(user, target, 30 SECONDS))
+			if(!do_after(user, 30 SECONDS, target))
 				return FALSE
 
 			var/obj/structure/spider/cocoon/quirk/spawned_cocoon = new(target.loc)
@@ -60,7 +60,7 @@
 			return TRUE
 
 		user.visible_message("<span class='warning'>[user] attempts to remove [target]'s [target.wear_suit]!</span>", "<span class='warning'>You attempt to remove [target]'s [target.wear_suit].</span>")
-		if(!do_after_mob(user, target, 10 SECONDS) || !target.dropItemToGround(suit))
+		if(!do_after(user, 10 SECONDS, target) || !target.dropItemToGround(suit))
 			return FALSE
 
 	var/obj/item/clothing/suit/straight_jacket/web/wrapping = new
@@ -68,7 +68,7 @@
 		return FALSE
 
 	user.visible_message("<span class='warning'>[user] attempts to wrap [target] inside of [wrapping]!</span>", "<span class='warning'>You attempt to wrap [target] inside of [wrapping].</span>")
-	if(!do_after_mob(user, target, 20 SECONDS) || !target.equip_to_slot_if_possible(wrapping, ITEM_SLOT_OCLOTHING, TRUE, TRUE))
+	if(!do_after(user, 20 SECONDS, target) || !target.equip_to_slot_if_possible(wrapping, ITEM_SLOT_OCLOTHING, TRUE, TRUE))
 		user.visible_message("<span class='warning'>[user] fails to wrap [target] inside of [wrapping]!</span>", "<span class='warning'>You fail to wrap [target] inside of [wrapping].</span>")
 		return FALSE
 
@@ -105,9 +105,28 @@
 /datum/action/innate/make_web/Activate()
 	var/turf/T = get_turf(owner)
 	owner.visible_message("<span class='warning'>[owner] begins spinning a web!</span>", "<span class='warning'>You begin spinning a web.</span>")
-	if(!do_after(owner, 10 SECONDS, 1, null, 1))
+	var/obj/structure/spider/stickyweb/W = locate() in get_turf(src)
+	if(W || !do_after(owner, 10 SECONDS, T))
 		owner.visible_message("<span class='warning'>[owner] fails to spin a web!</span>", "<span class='warning'>You fail to spin web.</span>")
 		return FALSE
-	T.ChangeTurf(/obj/structure/spider/stickyweb)
-	owner.visible_message("<span class='warning'>[owner] spin a sticky web!</span>", "<span class='warning'>You spin a sticky web.</span>")
+	new /obj/structure/spider/stickyweb(T)
+	owner.visible_message("<span class='warning'>[owner] spins a sticky web!</span>", "<span class='warning'>You spin a sticky web.</span>")
+	return TRUE
+
+/obj/structure/spider/stickyweb/CanPass(atom/movable/mover, turf/target)
+	if (genetic)
+		return
+	if(istype(mover, /mob/living/simple_animal/hostile/poison/giant_spider) || HAS_TRAIT(mover, TRAIT_WEB_WEAVER))
+		return TRUE
+	else if(isliving(mover))
+		if(istype(mover.pulledby, /mob/living/simple_animal/hostile/poison/giant_spider))
+			return TRUE
+		if(mover.pulledby)
+			if(HAS_TRAIT(mover.pulledby, TRAIT_WEB_WEAVER))
+				return TRUE
+		if(prob(50))
+			to_chat(mover, "<span class='danger'>You get stuck in \the [src] for a moment.</span>")
+			return FALSE
+	else if(istype(mover, /obj/item/projectile))
+		return prob(30)
 	return TRUE

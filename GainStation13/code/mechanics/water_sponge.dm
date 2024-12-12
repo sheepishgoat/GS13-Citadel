@@ -6,6 +6,9 @@
 	lose_text = "<span class='notice'>You don't feel absorbant anymore.</span>"
 	mob_trait = TRAIT_WATER_SPONGE
 
+/datum/reagent/water
+	var/bloat_coeff = 3.5
+
 /datum/reagent/water/on_mob_add(mob/living/L, amount)
 	if(HAS_TRAIT(L, TRAIT_WATER_SPONGE))
 		if(iscarbon(L))
@@ -30,7 +33,7 @@
 
 
 /datum/reagent/water/proc/fat_hide(mob/living/carbon/user)
-	return volume * 3.5
+	return volume * bloat_coeff
 
 /obj/machinery/shower/process()
 	..()
@@ -56,6 +59,9 @@
 /obj/item/organ/lungs/check_breath(datum/gas_mixture/breath, mob/living/carbon/human/H)
 	water_check(breath, H)
 	. = ..()
+
+/datum/reagent/water/overdose_start(mob/living/M)
+	. = 1
 
 /obj/structure/sink
 	var/mob/living/attached
